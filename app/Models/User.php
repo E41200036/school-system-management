@@ -47,6 +47,7 @@ class User extends Authenticatable
         'alternate_email',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 
     /**
@@ -67,4 +68,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class, 'users_id');
+    }
 }

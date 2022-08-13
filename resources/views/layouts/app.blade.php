@@ -13,8 +13,24 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @include('partials.header')
-    @method('css-internal')
+    <link rel="stylesheet" href="{{ asset('frontend/css/main/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/main/app-dark.css') }}">
+    <link rel="shortcut icon" href="{{ asset('frontend/images/logo/favicon.svg') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('frontend/images/logo/favicon.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('frontend/css/shared/iconly.css') }}">
+
+    {{-- Date Picker --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/bootstrap-datepicker.css') }}">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datepicker.js') }}"></script>
+
+    {{-- Sweetalert --}}
+    <link rel="stylesheet" href="{{ asset('frontend/extensions/sweetalert2/sweetalert2.min.css') }}">
+
+    {{-- Choices --}}
+    <link rel="stylesheet" href="{{ asset('frontend/extensions/choices.js/public/assets/styles/choices.min.css') }}">
+
+    @stack('css-internal')
 </head>
 
 <body>
@@ -42,8 +58,11 @@
             </footer>
         </div>
     </div>
-    @include('partials.footer')
+    <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('frontend/js/app.js') }}"></script>
+    <script src="{{ asset('frontend/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('frontend/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/pages/form-element-select.js') }}"></script>
     @stack('js-internal')
 </body>
-
 </html>

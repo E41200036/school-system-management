@@ -35,6 +35,7 @@
                         </path>
                     </svg>
                 </div>
+
                 <div class="sidebar-toggler  x">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                 </div>
@@ -50,17 +51,29 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Manajemen Guru</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="">Data Guru</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{{ route('admin.teacher.create') }}">Tambah Guru</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-item">
-                    <form action="{{ route('logout') }}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST" id="logout-form">
                         @csrf
-                        <a href="{{ route('logout') }}"
-                            onclick="
-                        event.preventDefault();
-                        this.closest('form').submit();
-                        "
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class='sidebar-link'>
                             <i class="bi bi-box-arrow-right"></i>
-                            <span>Logout</span>
+                            <span>Keluar</span>
                         </a>
                     </form>
                 </li>

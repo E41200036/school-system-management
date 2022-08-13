@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::group(['prefix' => 'dashboard', 'middlware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/', DashboardController::class)->name('admin.dashboard');
+    // Teacher
+    Route::resource('teacher', TeacherController::class, ['as' => 'admin']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

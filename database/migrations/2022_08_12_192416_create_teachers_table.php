@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('teachers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('users_id');
             $table->string('teacher_code');
-            $table->integer('salary');
+            $table->text('salary');
             $table->date('joining_date');
             $table->string('designation');
             $table->string('qualification');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('employees', function (Blueprint $table) {
+        Schema::table('teachers', function (Blueprint $table) {
             $table->foreign('users_id')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
