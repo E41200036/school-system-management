@@ -17,7 +17,7 @@ class GlobalUserScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->getModel()->where('is_active', true);
+        $builder->where('is_active', 1);
     }
 
 }

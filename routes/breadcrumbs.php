@@ -32,3 +32,10 @@ Breadcrumbs::for('teacher-edit', function(BreadcrumbTrail $trail, Teacher $teach
     $trail->parent('teacher-info', $teacher);
     $trail->push('Ubah', route('admin.teacher.edit', $teacher->id));
 });
+
+// ------------- USER -------------
+
+// User
+Breadcrumbs::for('user', function(BreadcrumbTrail $trail) {
+    $trail->push('Pengguna');
+});

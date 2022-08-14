@@ -46,7 +46,7 @@
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item">
-                    <a href="/" class='sidebar-link'>
+                    <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
@@ -63,6 +63,21 @@
                         </li>
                         <li class="submenu-item {{ Request::routeIs('admin.teacher.create') ? 'active' : ' ' }}">
                             <a href="{{ route('admin.teacher.create') }}">Tambah Guru</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-person-fill"></i>
+                        <span>Pengguna</span>
+                    </a>
+                    <ul class="submenu {{ Request::routeIs('admin.user*') ? 'active' : ' ' }}">
+                        <li class="submenu-item {{ Request::routeIs('admin.teacher.index') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.user.index') }}">Daftar Pengguna</a>
+                        </li>
+                        <li class="submenu-item {{ Request::routeIs('admin.teacher.create') ? 'active' : ' ' }}">
+                            <a href="#">Manajemen Role</a>
                         </li>
                     </ul>
                 </li>

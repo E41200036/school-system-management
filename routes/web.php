@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +22,9 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/', DashboardController::class)->name('admin.dashboard');
-    // Teacher
+
     Route::resource('teacher', TeacherController::class, ['as' => 'admin']);
+    Route::resource('user', UserController::class, ['as' => 'admin']);
 });
 
 require __DIR__ . '/auth.php';
