@@ -3,9 +3,9 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Tambah Guru</h3>
+                    <h3>Edit Guru</h3>
                 </div>
-                {{ Breadcrumbs::render('teacher-create') }}
+                {{ Breadcrumbs::render('teacher-edit', $teacher) }}
             </div>
         </div>
         <section class="section mt-3">
@@ -14,31 +14,33 @@
                     <h4 class="card-title">Default Layout</h4>
                 </div> --}}
                 <div class="card-body">
-                    <form action="{{ route('admin.teacher.store') }}" method="POST">
+                    <form action="{{ route('admin.teacher.update', $teacher->id) }}" method="POST">
                         @csrf
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <input type="hidden" name="users_id" value="{{ $teacher->user->id }}">
                                     <label for="teacher_code">Kode Guru</label>
                                     <input type="text" class="form-control mt-1" id="teacher_code"
-                                        name="teacher_code" value="{{ $teacherCode }}" readonly>
+                                        name="teacher_code" value="{{ $teacher->teacher_code }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="joining_date">Bergabung Sejak</label>
                                     <input type="text" class="form-control mt-1" id="joining_date"
-                                        name="joining_date" value="{{ date('Y-m-d') }}" readonly>
+                                        name="joining_date" value="{{ $teacher->joining_date }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="salary">Gaji</label>
                                     <input type="text" class="form-control mt-1" id="salary" name="salary"
-                                        value="{{ @old('salary') }}">
+                                        value="{{ $teacher->salary }}">
                                     @error('salary')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="designation">Jabatan</label>
-                                    <select class="form-select rounded-3 mt-1" id="designation" name="designation">
+                                    <select class="form-select mt-1" id="designation" name="designation">
                                     </select>
                                     @error('designation')
                                         <div class="invalid-feedback">
@@ -49,7 +51,7 @@
                                 <div class="form-group">
                                     <label for="qualification">Kualifikasi</label>
                                     <input type="text" class="form-control mt-1" id="qualification"
-                                        name="qualification" value="{{ @old('qualification') }}">
+                                        name="qualification" value="{{ $teacher->qualification }}">
                                     @error('qualification')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -57,7 +59,7 @@
                                 <div class="form-group">
                                     <label for="experience">Pengalaman</label>
                                     <input type="text" class="form-control mt-1" id="experience" name="experience"
-                                        value="{{ @old('experience') }}">
+                                        value="{{ $teacher->experience }}">
                                     @error('experience')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -69,7 +71,7 @@
                                         <div class="form-group">
                                             <label for="first_name">Nama Depan</label>
                                             <input type="text" class="form-control mt-1" id="first_name"
-                                                name="first_name" value="{{ @old('first_name') }}">
+                                                name="first_name" value="{{ $teacher->user->first_name }}">
                                             @error('first_name')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -79,7 +81,7 @@
                                         <div class="form-group">
                                             <label for="last_name">Nama Belakang</label>
                                             <input type="text" class="form-control mt-1" id="last_name"
-                                                name="last_name" value="{{ @old('last_name') }}">
+                                                name="last_name" value="{{ $teacher->user->last_name }}">
                                             @error('last_name')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -90,14 +92,14 @@
                                     <label for="gender">Jenis Kelamin</label>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input" type="radio" name="gender" id="L"
-                                            value="L">
+                                            value="L" {{ $teacher->user->gender == 'L' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="L">
                                             Laki Laki
                                         </label>
                                     </div>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input" type="radio" name="gender" id="P"
-                                            value="P">
+                                            value="P" {{ $teacher->user->gender == 'P' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="P">
                                             Perempuan
                                         </label>
@@ -105,14 +107,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="dob">Tanggal Lahir</label>
-                                    <input type="text" class="form-control mt-1" id="dob" name="dob">
+                                    <input type="text" class="form-control mt-1" id="dob" name="dob"
+                                        value="{{ $teacher->user->dob }}">
                                     @error('dob')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Alamat</label>
-                                    <textarea name="address" id="address" cols="30" name="address" class="form-control mt-1">{{ @old('address') }}</textarea>
+                                    <textarea name="address" id="address" cols="30" name="address" class="form-control mt-1">{{ $teacher->user->address }}</textarea>
                                     @error('address')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -122,7 +125,7 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control mt-1" id="email" name="email"
-                                        value="{{ @old('email') }}" autocomplete="off">
+                                        value="{{ $teacher->user->email }}" autocomplete="off">
                                     @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -131,7 +134,7 @@
                                     <label for="alternate_email">Email Alternatif <small
                                             class="text-muted">(Opsional)</small></label>
                                     <input type="email" class="form-control mt-1" id="alternate_email"
-                                        name="alternate_email" value="{{ @old('alternate_email') }}">
+                                        name="alternate_email" value="{{ $teacher->user->alternate_email }}">
                                     @error('alternate_email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -139,7 +142,7 @@
                                 <div class="form-group">
                                     <label for="phone_number_1">Nomor Telepon</label>
                                     <input type="text" class="form-control mt-1" id="phone_number_1"
-                                        name="phone_number_1" value="{{ @old('phone_number_1') }}">
+                                        name="phone_number_1" value="{{ $teacher->user->phone_number_1 }}">
                                     @error('phone_number_1')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -148,7 +151,7 @@
                                     <label for="phone_number2">Nomor Telepon 2 <small
                                             class="text-muted">(Optional)</small></label>
                                     <input type="text" class="form-control mt-1" id="phone_number_2"
-                                        name="phone_number_2" value="{{ @old('phone_number_2') }}">
+                                        name="phone_number_2" value="{{ $teacher->user->phone_number_2 }}">
                                     @error('phone_number_2')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -173,7 +176,8 @@
                 </div>
                 <div class="card-footer text-end gap-3">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button class="btn btn-light btn-clear" type="button">Kosongkan Field</button>
+                    <a href="{{ route('admin.teacher.index') }}" class="btn btn-light btn-clear"
+                        type="button">Batal</a>
                 </div>
                 </form>
             </div>
@@ -226,23 +230,6 @@
                     }
                 });
 
-                $('#designation').select2({
-                    placeholder: 'Pilih Jabatan',
-                    allowClear: true,
-                    theme: 'bootstrap-5',
-                    width: '100%',
-                    data: [
-                        @foreach ($roles as $role)
-                            @if ($role->id == 1 || $role->id == 2 || $role->id == 3 || $role->id == 6 || $role->id == 7)
-                                @continue
-                            @endif {
-                                id: '{{ $role->name }}',
-                                text: '{{ $role->name }}'
-                            },
-                        @endforeach
-                    ]
-                });
-
                 $('.btn-clear').on('click', function() {
                     $('#first_name').val('');
                     $('#last_name').val('');
@@ -257,6 +244,26 @@
                     $('#salary').val('');
                 });
             });
+
+            $('#designation').select2({
+                placeholder: 'Pilih Jabatan',
+                allowClear: true,
+                theme: 'bootstrap-5',
+                width: '100%',
+                data: [
+                    @foreach ($roles as $role)
+                        @if ($role->id == 1 || $role->id == 2 || $role->id == 3 || $role->id == 6 || $role->id == 7)
+                            @continue
+                        @endif {
+                            id: '{{ $role->name }}',
+                            text: '{{ $role->name }}'
+                        },
+                    @endforeach
+                ]
+            });
+
+            // set default value for designation
+            $('#designation').val('{{ $teacher->user->roles->first()->name }}').trigger('change');
 
             @if (Session::has('success'))
                 Swal.fire({

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Scopes\GlobalUserScope;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new GlobalUserScope);
+    }
 
     // Employee Role
     const ADMIN_ROLE = 'Super Admin';

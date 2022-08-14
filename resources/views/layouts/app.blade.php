@@ -21,14 +21,18 @@
 
     {{-- Date Picker --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bootstrap-datepicker.css') }}">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ asset('lib/bootstrap-datepicker.js') }}"></script>
 
     {{-- Sweetalert --}}
     <link rel="stylesheet" href="{{ asset('frontend/extensions/sweetalert2/sweetalert2.min.css') }}">
 
-    {{-- Choices --}}
-    <link rel="stylesheet" href="{{ asset('frontend/extensions/choices.js/public/assets/styles/choices.min.css') }}">
+    {{-- Datatable --}}
+    <link rel="stylesheet"
+        href="{{ asset('frontend/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/pages/datatables.css') }}">
+
+    {{-- Select2 --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     @stack('css-internal')
 </head>
@@ -60,9 +64,22 @@
     </div>
     <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
     <script src="{{ asset('frontend/js/app.js') }}"></script>
+    <script src="{{ asset('frontend/extensions/jquery/jquery.min.js') }}"></script>
+
+    {{-- Date picker --}}
+    <script src="{{ asset('lib/bootstrap-datepicker.js') }}"></script>
+
+    {{-- Sweetalert --}}
     <script src="{{ asset('frontend/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('frontend/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/pages/form-element-select.js') }}"></script>
+
+    {{-- Datatable --}}
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+    <script src="{{ asset('frontend/js/pages/datatables.js') }}"></script>
+
+    {{-- Select2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     @stack('js-internal')
 </body>
+
 </html>

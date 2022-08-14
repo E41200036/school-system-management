@@ -57,11 +57,11 @@
                         <i class="bi bi-people-fill"></i>
                         <span>Manajemen Guru</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="">Data Guru</a>
+                    <ul class="submenu {{ Request::routeIs('admin.teacher*') ? 'active' : ' ' }}">
+                        <li class="submenu-item {{ Request::routeIs('admin.teacher.index') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.teacher.index') }}">Data Guru</a>
                         </li>
-                        <li class="submenu-item ">
+                        <li class="submenu-item {{ Request::routeIs('admin.teacher.create') ? 'active' : ' ' }}">
                             <a href="{{ route('admin.teacher.create') }}">Tambah Guru</a>
                         </li>
                     </ul>
@@ -70,7 +70,8 @@
                 <li class="sidebar-item">
                     <form action="{{ route('logout') }}" method="POST" id="logout-form">
                         @csrf
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class='sidebar-link'>
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Keluar</span>

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class TeacherRequest extends FormRequest
@@ -28,41 +29,71 @@ class TeacherRequest extends FormRequest
     {
         return match ($this->method()) {
             'POST' => $this->store(),
-            'PUT' => $this->update(),
+            'PUT'  => $this->update(),
         };
     }
 
     public function store()
     {
         return [
-            'teacher_code' => 'required|unique:teachers',
-            'joining_date' => 'required',
-            'designation' => 'required',
-            'qualification' => 'required',
-            'experience' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'dob' => 'required',
-            'address' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'teacher_code'    => 'required|unique:teachers',
+            'joining_date'    => 'required',
+            'designation'     => 'required',
+            'qualification'   => 'required',
+            'experience'      => 'required',
+            'first_name'      => 'required',
+            'last_name'       => 'required',
+            'gender'          => 'required',
+            'dob'             => 'required',
+            'address'         => 'required',
+            'email'           => 'required|email|unique:users,email',
             'alternate_email' => 'nullable|email|unique:users,email',
-            'phone_number_1' => 'required|unique:users,phone_number_1',
-            'phone_number_2' => 'nullable|unique:users,phone_number_2',
-            'password' => 'required|min:8|max:255',
-            'mother_name' => 'nullable',
+            'phone_number_1'  => 'required|unique:users,phone_number_1',
+            'phone_number_2'  => 'nullable|unique:users,phone_number_2',
+            'password'        => 'required|min:8|max:255',
+            'mother_name'     => 'nullable',
+            'salary'         => 'required',
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    public function update()
     {
-        $response = redirect()
-            ->back()
-            ->with('error', 'Periksa kembali data yang anda inputkan')
-            ->withErrors($validator);
+        return [
+            'users_id'       => 'required',
+            'teacher_code'    => 'required|exists:teachers,teacher_code',
+            'joining_date'    => 'required',
+            'designation'     => 'required',
+            'qualification'   => 'required',
+            'experience'      => 'required',
+            'first_name'      => 'required',
+            'last_name'       => 'required',
+            'gender'          => 'required',
+            'dob'             => 'required',
+            'address'         => 'required',
+            'email'           => 'required|exists:users,email',
+            'alternate_email' => 'nullable|unique:users,email',
+            'phone_number_1'  => [
+                'required',
+                'exists:users,phone_number_1',
+                Rule::unique('users', 'phone_number_1')->ignore($this->users_id),
+            ],
+            'phone_number_2'  => [
+                'nullable',
+                'unique:users,phone_number_2',
+                Rule::unique('users', 'phone_number_2')->ignore($this->users_id),
+            ],
+            'password'        => 'nullable|min:8|max:255',
+            'mother_name'     => 'nullable',
+            'salary'         => 'required',
+        ];
+    }
 
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+    public function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors()->all();
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'message' => $errors,
+        ], 422));
     }
 }

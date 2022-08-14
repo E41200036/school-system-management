@@ -13,13 +13,50 @@ class TeacherController extends Controller
 
     protected $teacher;
 
-    public function __construct(TeacherInterface $teacher) {
+    public function __construct(TeacherInterface $teacher)
+    {
         $this->teacher = $teacher;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $teachers = $this->teacher->getAll();
 
+        try {
+            if ($request->ajax()) {
+                return datatables()
+                    ->of($teachers)
+                    ->addColumn('teacher_code', function ($teacher) {
+                        return $teacher->teacher_code;
+                    })
+                    ->addColumn('fullname', function ($teacher) {
+                        return $teacher->user->fullname;
+                    })
+                    ->addColumn('gender', function ($teacher) {
+                        return $teacher->user->gender == 'L' ? 'Laki-laki' : 'Perempuan';
+                    })
+                    ->addColumn('qualification', function ($teacher) {
+                        return $teacher->qualification;
+                    })
+                    ->addColumn('experience', function ($teacher) {
+                        return $teacher->experience;
+                    })
+                    ->addColumn('phone_number_1', function ($teacher) {
+                        return $teacher->user->phone_number_1;
+                    })
+                    ->addColumn('dob', function ($teacher) {
+                        return date('d-m-Y', strtotime($teacher->user->dob));
+                    })
+                    ->addColumn('action', function ($teacher) {
+                        return view('admin.teacher.action', ['teacher' => $teacher]);
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('admin.teacher.index');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -31,7 +68,7 @@ class TeacherController extends Controller
     {
         return view('admin.teacher.create', [
             'teacherCode' => $this->teacher->generateTeacherCode(),
-            'roles' => Role::get(),
+            'roles'       => Role::get(),
         ]);
     }
 
@@ -47,7 +84,6 @@ class TeacherController extends Controller
             $this->teacher->store(array_merge($request->all()));
             return redirect()->back()->with('success', 'Data Guru berhasil ditambahkan');
         } catch (\Throwable $th) {
-            throw $th;
             return redirect()->back()->with('error', 'Data Guru gagal ditambahkan');
         }
     }
@@ -60,7 +96,7 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('admin.teacher.show', ['teacher' => $this->teacher->getById($id), 'roles' => Role::get()]);
     }
 
     /**
@@ -71,7 +107,7 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.teacher.edit', ['teacher' => $this->teacher->getById($id), 'roles' => Role::get()]);
     }
 
     /**
@@ -81,9 +117,15 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TeacherRequest $request, $id)
     {
-        //
+        try {
+            $this->teacher->update($id, $request->all());
+            return redirect()->back()->with('success', 'Data Guru berhasil diperbarui');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Data Guru gagal diubah');
+        }
     }
 
     /**
@@ -94,6 +136,11 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->teacher->delete($id);
+            return redirect()->back()->with('success', 'Data Guru berhasil dihapus');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Data Guru gagal dihapus');
+        }
     }
 }
