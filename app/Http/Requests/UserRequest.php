@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -45,6 +46,22 @@ class UserRequest extends FormRequest
         ];
     }
 
+    public function update()
+    {
+        return [
+            'first_name'      => ['required', 'max:255'],
+            'last_name'       => ['required', 'max:255'],
+            'email'           => ['required', 'unique:users,email,'. $this->id],
+            'alternate_email' => ['nullable', 'email'],
+            'phone_number_1'  => ['required', 'unique:users,phone_number_1,'. $this->id],
+            'phone_number_2'  => ['nullable', 'unique:users,phone_number_2,'. $this->id],
+            'dob'             => ['required'],
+            'gender'          => ['required'],
+            'address'         => ['required'],
+            'role'            => ['required'],
+        ];
+    }
+
     public function messages()
     {
         return [
@@ -57,7 +74,7 @@ class UserRequest extends FormRequest
             'alternate_email.email'   => 'Email alternatif harus berupa email',
             'phone_number_1.required' => 'Nomor telepon harus diisi',
             'phone_number_1.unique'   => 'Nomor telepon sudah terdaftar',
-            'phone_number_2.unique'   => 'Nomor telepon sudah terdaftar',
+            'phone_number_2.unique'   => 'Nomor telepon 2 sudah terdaftar',
             'dob.required'            => 'Tanggal lahir harus diisi',
             'gender.required'         => 'Jenis kelamin harus diisi',
             'address.required'        => 'Alamat harus diisi',

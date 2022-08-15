@@ -52,14 +52,14 @@ class TeacherRequest extends FormRequest
             'phone_number_2'  => 'nullable|unique:users,phone_number_2',
             'password'        => 'required|min:8|max:255',
             'mother_name'     => 'nullable',
-            'salary'         => 'required',
+            'salary'          => 'required',
         ];
     }
 
     public function update()
     {
         return [
-            'users_id'       => 'required',
+            'users_id'        => 'required',
             'teacher_code'    => 'required|exists:teachers,teacher_code',
             'joining_date'    => 'required',
             'designation'     => 'required',
@@ -72,19 +72,11 @@ class TeacherRequest extends FormRequest
             'address'         => 'required',
             'email'           => 'required|exists:users,email',
             'alternate_email' => 'nullable|unique:users,email',
-            'phone_number_1'  => [
-                'required',
-                'exists:users,phone_number_1',
-                Rule::unique('users', 'phone_number_1')->ignore($this->users_id),
-            ],
-            'phone_number_2'  => [
-                'nullable',
-                'unique:users,phone_number_2',
-                Rule::unique('users', 'phone_number_2')->ignore($this->users_id),
-            ],
+            'phone_number_1'  => ['required', Rule::unique('users', 'phone_number_1')->ignore($this->route('teacher'))],
+            'phone_number_2'  => ['nullable', Rule::unique('users', 'phone_number_2')->ignore($this->route('teacher'))],
             'password'        => 'nullable|min:8|max:255',
             'mother_name'     => 'nullable',
-            'salary'         => 'required',
+            'salary'          => 'required',
         ];
     }
 
@@ -92,7 +84,7 @@ class TeacherRequest extends FormRequest
     {
         $errors = $validator->errors()->all();
         throw new HttpResponseException(response()->json([
-            'status' => 'error',
+            'status'  => 'error',
             'message' => $errors,
         ], 422));
     }

@@ -11,13 +11,19 @@ class UserRepository implements UserInterface
 {
     protected $model;
 
-    public function __construct(User $model) {
+    public function __construct(User $model)
+    {
         $this->model = $model;
     }
 
     public function getAll()
     {
-        return $this->model->with('roles')->get();
+        return $this->model->with('roles')->whereHas('roles', function ($query) {
+            $query->where('name', User::ADMIN_ROLE)
+                ->orWhere('name', User::KEPALA_SEKOLAH_ROLE)
+                ->orWhere('name', User::WAKIL_KEPALA_SEKOLAH_ROLE)
+                ->orWhere('name', User::KOMISARIS_ROLE);
+        })->get();
     }
 
     public function store($data)
@@ -50,6 +56,44 @@ class UserRepository implements UserInterface
 
         try {
             $user->assignRole($data['role']);
+        } catch (Exception $th) {
+            throw $th;
+            DB::rollBack();
+        }
+
+        DB::commit();
+    }
+
+    public function update($id, $data)
+    {
+        DB::beginTransaction();
+        try {
+            $user = $this->model->find($id);
+            $user->update($data);
+            $user->save;
+        } catch (Exception $th) {
+            throw $th;
+            DB::rollBack();
+        }
+
+        try {
+            $user->syncRoles($data['role']);
+        } catch (Exception $th) {
+            throw $th;
+            DB::rollBack();
+        }
+
+        DB::commit();
+    }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = $this->model->find($id);
+            $user->is_active = 0;
+            $user->save();
         } catch (Exception $th) {
             throw $th;
             DB::rollBack();

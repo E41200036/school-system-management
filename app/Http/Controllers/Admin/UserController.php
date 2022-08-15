@@ -13,7 +13,8 @@ class UserController extends Controller
 
     protected $user;
 
-    public function __construct(UserInterface $user) {
+    public function __construct(UserInterface $user)
+    {
         $this->user = $user;
     }
 
@@ -26,32 +27,35 @@ class UserController extends Controller
     {
         $users = $this->user->getAll();
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             return datatables()
-            ->of($users)
-            ->addColumn('fullname', function($user) {
-                return $user->fullname;
-            })
-            ->addColumn('email', function($user) {
-                return $user->email;
-            })
-            ->addColumn('alternate_email', function($user) {
-                return $user->alternate_email ?? '-';
-            })
-            ->addColumn('phone_number_1', function($user) {
-                return $user->phone_number_1;
-            })
-            ->addColumn('dob', function($user) {
-                return date('d-m-Y', strtotime($user->dob));
-            })
-            ->addColumn('gender', function($user) {
-                return $user->gender == 'L' ? 'Laki Laki' : 'Perempuan';
-            })
-            ->addColumn('action', function($user) {
-                return view('admin.users.action', ['user' => $user]);
-            })
-            ->addIndexColumn()
-            ->make(true);
+                ->of($users)
+                ->addColumn('fullname', function ($user) {
+                    return $user->fullname;
+                })
+                ->addColumn('email', function ($user) {
+                    return $user->email;
+                })
+                ->addColumn('alternate_email', function ($user) {
+                    return $user->alternate_email ?? '-';
+                })
+                ->addColumn('phone_number_1', function ($user) {
+                    return $user->phone_number_1;
+                })
+                ->addColumn('dob', function ($user) {
+                    return date('d-m-Y', strtotime($user->dob));
+                })
+                ->addColumn('gender', function ($user) {
+                    return $user->gender == 'L' ? 'Laki Laki' : 'Perempuan';
+                })
+                ->addColumn('action', function ($user) {
+                    return view('admin.users.action', [
+                        'user' => $user,
+                        'roles' => Role::all()
+                    ]);
+                })
+                ->addIndexColumn()
+                ->make(true);
         }
 
         return view('admin.users.index', [
@@ -115,9 +119,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        try {
+            $this->user->update($id, $request->all());
+            return redirect()->back()->with('success','Data pengguna berhasil di ubah!');
+        } catch (\Throwable $th) {
+            throw $th;
+            return redirect()->back()->with('error', 'Data pengguna gagal diubah!');
+        }
     }
 
     /**
@@ -128,6 +138,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->user->destroy($id);
+            return redirect()->back()->with('success', 'Data user berhasil dihapus');
+        } catch (\Throwable $th) {
+            throw $th;
+            return redirect()->back()->with('error', 'Data user gagal dihapus!');
+        }
     }
 }
