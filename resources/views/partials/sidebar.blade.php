@@ -67,17 +67,24 @@
                     </ul>
                 </li>
 
+                <li class="sidebar--item {{ Request::routeIs('admin.user.index') ? 'active' : ' ' }}"">
+                    <a href="{{ route('admin.user.index') }}" class="sidebar-link">
+                        <i class="bi bi-collection"></i>
+                        <span>Daftar Pengguna</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Pengguna</span>
+                        <i class="bi bi-card-checklist"></i>
+                        <span>Manajemen Role</span>
                     </a>
-                    <ul class="submenu {{ Request::routeIs('admin.user*') ? 'active' : ' ' }}">
-                        <li class="submenu-item {{ Request::routeIs('admin.teacher.index') ? 'active' : ' ' }}">
-                            <a href="{{ route('admin.user.index') }}">Daftar Pengguna</a>
+                    <ul class="submenu {{ Request::routeIs('admin.role*') ? 'active' : ' ' }}">
+                        <li class="submenu-item {{ Request::routeIs('admin.role.index') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.role.index') }}">Daftar Role</a>
                         </li>
-                        <li class="submenu-item {{ Request::routeIs('admin.teacher.create') ? 'active' : ' ' }}">
-                            <a href="#">Manajemen Role</a>
+                        <li class="submenu-item {{ Request::routeIs('admin.role.create') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.role.create') }}">Tambah Role</a>
                         </li>
                     </ul>
                 </li>

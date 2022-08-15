@@ -18,12 +18,7 @@ class UserRepository implements UserInterface
 
     public function getAll()
     {
-        return $this->model->with('roles')->whereHas('roles', function ($query) {
-            $query->where('name', User::ADMIN_ROLE)
-                ->orWhere('name', User::KEPALA_SEKOLAH_ROLE)
-                ->orWhere('name', User::WAKIL_KEPALA_SEKOLAH_ROLE)
-                ->orWhere('name', User::KOMISARIS_ROLE);
-        })->get();
+        return $this->model->with('roles')->get();
     }
 
     public function store($data)
