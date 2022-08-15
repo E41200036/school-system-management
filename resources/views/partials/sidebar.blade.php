@@ -52,10 +52,17 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a href="{{ route('admin.semester.index') }}" class='sidebar-link'>
+                        <i class="bi bi-bezier2"></i>
+                        <span>Semester</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-people-fill"></i>
-                        <span>Manajemen Guru</span>
+                        <span>Guru</span>
                     </a>
                     <ul class="submenu {{ Request::routeIs('admin.teacher*') ? 'active' : ' ' }}">
                         <li class="submenu-item {{ Request::routeIs('admin.teacher.index') ? 'active' : ' ' }}">
@@ -66,18 +73,10 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="sidebar--item {{ Request::routeIs('admin.user.index') ? 'active' : ' ' }}"">
-                    <a href="{{ route('admin.user.index') }}" class="sidebar-link">
-                        <i class="bi bi-collection"></i>
-                        <span>Daftar Pengguna</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-card-checklist"></i>
-                        <span>Manajemen Role</span>
+                        <span>Hak Akses</span>
                     </a>
                     <ul class="submenu {{ Request::routeIs('admin.role*') ? 'active' : ' ' }}">
                         <li class="submenu-item {{ Request::routeIs('admin.role.index') ? 'active' : ' ' }}">
@@ -87,6 +86,12 @@
                             <a href="{{ route('admin.role.create') }}">Tambah Role</a>
                         </li>
                     </ul>
+                </li>
+                <li class="sidebar--item {{ Request::routeIs('admin.user.index') ? 'active' : ' ' }}"">
+                    <a href="{{ route('admin.user.index') }}" class="sidebar-link">
+                        <i class="bi bi-collection"></i>
+                        <span>Daftar Pengguna</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">

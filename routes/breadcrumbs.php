@@ -64,3 +64,9 @@ Breadcrumbs::for('role-edit', function(BreadcrumbTrail $trail, Role $role) {
     $trail->parent('role-show', $role);
     $trail->push('Ubah');
 });
+
+// ------------- SEMESTER -------------
+
+Breadcrumbs::for('semester', function(BreadcrumbTrail $trail) {
+    $trail->push('Semester');
+});

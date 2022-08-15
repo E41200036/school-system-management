@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::resource('teacher', TeacherController::class, ['as' => 'admin']);
     Route::resource('user', UserController::class, ['as' => 'admin']);
     Route::resource('role', RoleController::class, ['as' => 'admin']);
+    Route::resource('semester', SemesterController::class, ['as' => 'admin']);
 
 });
 
