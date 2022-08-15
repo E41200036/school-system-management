@@ -66,24 +66,6 @@
                     $('.form-check-input').prop('checked', $(this).prop('checked'));
                 });
             });
-
-            @if (Session::has('success'))
-                Swal.fire({
-                    title: 'Success!',
-                    text: '{{ Session::get('success') }}',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                });
-            @endif
-
-            @if (Session::has('error'))
-                Swal.fire({
-                    title: 'Error!',
-                    text: '{{ Session::get('error') }}',
-                    icon: 'error',
-                    confirmButtonText: 'Ok'
-                });
-            @endif
         </script>
     @endpush
 </x-app-layout>

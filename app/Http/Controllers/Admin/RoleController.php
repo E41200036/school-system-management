@@ -118,7 +118,7 @@ class RoleController extends Controller
     {
         try {
             $this->roles->update($id, $request->all());
-            return redirect()->back()->with('success', 'Role berhasil diperbarui!');
+            return redirect()->route('admin.role.index')->with('success', 'Role berhasil diperbarui!');
         } catch (Exception $th) {
             throw $th;
             return redirect()->back()->with('error', 'Role gagal diperbarui!');
