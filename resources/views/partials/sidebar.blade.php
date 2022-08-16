@@ -52,11 +52,19 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="{{ route('admin.semester.index') }}" class='sidebar-link'>
-                        <i class="bi bi-bezier2"></i>
-                        <span>Semester</span>
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-collection"></i>
+                        <span>Data Master</span>
                     </a>
+                    <ul class="submenu {{ Request::routeIs('admin.major*') ? 'active' : ' ' }}">
+                        <li class="submenu-item {{ Request::routeIs('admin.major.index') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.major.index') }}">Jurusan</a>
+                        </li>
+                        <li class="submenu-item {{ Request::routeIs('admin.major.create') ? 'active' : ' ' }}">
+                            <a href="{{ route('admin.major.create') }}">Prodi</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="sidebar-item has-sub">
@@ -73,6 +81,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-card-checklist"></i>

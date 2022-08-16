@@ -2,17 +2,21 @@
 
 namespace App\Providers;
 
+use App\Interfaces\MajorInterface;
 use App\Interfaces\PermissionInterface;
 use App\Interfaces\RoleInterface;
 use App\Interfaces\SemesterInterface;
 use App\Interfaces\TeacherInterface;
 use App\Interfaces\UserInterface;
+use App\Models\Major;
 use App\Models\Semester;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Observers\Admin\MajorObserver;
 use App\Observers\Admin\TeacherObserver;
 use App\Observers\Admin\UserObserver;
 use App\Observers\Admin\SemesterObserver;
+use App\Repositories\MajorRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\SemesterRepository;
@@ -33,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(RoleInterface::class, RoleRepository::class);
         $this->app->bind(PermissionInterface::class, PermissionRepository::class);
-        $this->app->bind(SemesterInterface::class, SemesterRepository::class);
+        $this->app->bind(MajorInterface::class, MajorRepository::class);
     }
 
     /**
@@ -45,6 +49,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Teacher::observe(TeacherObserver::class);
         User::observe(UserObserver::class);
-        Semester::observe(SemesterObserver::class);
+        Major::observe(MajorObserver::class);
     }
 }

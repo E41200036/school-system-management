@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('semesters', function (Blueprint $table) {
+        Schema::create('majors', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('semester_number');
+            $table->string('name');
             $table->foreignUuid('created_by')->nullable();
             $table->foreignUuid('updated_by')->nullable();
-            $table->integer('is_active');
+            $table->boolean('is_active')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::table('semesters', function (Blueprint $table) {
+        Schema::table('majors', function($table) {
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('semesters');
+        Schema::dropIfExists('majors');
     }
 };

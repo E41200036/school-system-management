@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('users_id');
             $table->string('student_code');
-            $table->foreignUuid('semesters_id');
+            $table->integer('semester');
             $table->foreignUuid('created_by')->nullable();
             $table->foreignUuid('updated_by')->nullable();
             $table->integer('is_active');
@@ -27,7 +27,6 @@ return new class extends Migration
 
         Schema::table('students', function (Blueprint $table) {
             $table->foreign('users_id')->references('id')->on('users');
-            $table->foreign('semesters_id')->references('id')->on('semesters');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });

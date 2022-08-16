@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class SemesterRequest extends FormRequest
+class MajorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +23,24 @@ class SemesterRequest extends FormRequest
      */
     public function rules()
     {
+        return match($this->method()) {
+            'POST' => $this->store(),
+            'PUT'  => $this->update(),
+        };
+    }
+
+    public function store()
+    {
         return [
-            'semester_number' => ['required', 'unique:semesters,semester_number']
+            'name' => ['required', 'unique:majors,name']
         ];
     }
+
+    public function update()
+    {
+        return [
+            'name' => ['required', 'unique:majors,name,' . $this->major_id]
+        ];
+    }
+
 }
